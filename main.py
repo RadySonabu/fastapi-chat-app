@@ -54,10 +54,13 @@ async def get(request: Request, username: str,response_class=HTMLResponse):
     host = str(client_host.rsplit('/',1)[0])
     if host == 'http://127.0.0.1:8000':
         host = host.replace("http://","") 
+        ws = "ws"
     else:
         host = host.replace("https://","") 
+        ws = "wss"
 
-    return templates.TemplateResponse("index.html", {"request": request, "username": username, 'chat': chat['data'], 'host': host})
+
+    return templates.TemplateResponse("index.html", {"request": request, "username": username, 'chat': chat['data'], 'host': host, 'ws': ws})
 
 
 @app.websocket("/ws/{client_id}")
