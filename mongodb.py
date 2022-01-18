@@ -1,7 +1,8 @@
 import motor.motor_asyncio
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
 from bson.objectid import ObjectId
-MONGO_DETAILS = 'mongodb+srv://admin:admin@cluster0.dauoh.mongodb.net/agora?retryWrites=true&w=majority'
+from decouple import config
+MONGO_DETAILS = config('MONGO_DETAILS')
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS, uuidRepresentation="standard")
 
 chat = client.chat

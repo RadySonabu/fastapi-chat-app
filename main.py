@@ -49,7 +49,11 @@ manager = ConnectionManager()
 @app.get("/{username}")
 async def get(request: Request, username: str,response_class=HTMLResponse):
     chat = await db.get(limit=20, offset=0, query={})
-    return templates.TemplateResponse("index.html", {"request": request, "username": username, 'chat': chat['data']})
+    client_host = str(request.url)
+    host = str(client_host.rsplit('/',1)[0])
+    host = host.replace("http://","")
+    print(client_host)
+    return templates.TemplateResponse("index.html", {"request": request, "username": username, 'chat': chat['data'], 'host': host})
 
 
 @app.websocket("/ws/{client_id}")
