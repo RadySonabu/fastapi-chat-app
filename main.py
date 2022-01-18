@@ -49,10 +49,14 @@ manager = ConnectionManager()
 @app.get("/{username}")
 async def get(request: Request, username: str,response_class=HTMLResponse):
     chat = await db.get(limit=20, offset=0, query={})
+    print(chat)
     client_host = str(request.url)
     host = str(client_host.rsplit('/',1)[0])
-    host = host.replace("http://","")
-    print(client_host)
+    if host == 'http://127.0.0.1:8000':
+        host = host.replace("http://","") 
+    else:
+        host = host.replace("https://","") 
+
     return templates.TemplateResponse("index.html", {"request": request, "username": username, 'chat': chat['data'], 'host': host})
 
 
